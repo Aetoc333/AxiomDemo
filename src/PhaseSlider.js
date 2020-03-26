@@ -39,7 +39,7 @@ const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
     console.log();
   };
 
-  if (error) return <h1>Error fetching data! </h1>;
+  if (error) return <h1>Error fetching data! phase slider</h1>;
   if (!loading) {
     const params = {
       slidesPerView: 1,
@@ -147,7 +147,7 @@ const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
 };
 
 export const blueprintPhases = gql`
-  query blueprintPhases {
+  query BlueprintPhases {
     blueprintPhases {
       phaseTitle
       purpose
