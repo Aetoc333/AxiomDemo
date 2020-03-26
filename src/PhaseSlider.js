@@ -39,7 +39,7 @@ const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
     console.log();
   };
 
-  if (error) return <h1>Error fetching data! phase slider</h1>;
+  if (error) return <h1>Error fetching data! </h1>;
   if (!loading) {
     const params = {
       slidesPerView: 1,
@@ -126,12 +126,24 @@ const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
                       tasks={phase.measureOfSuccessDefaults}
                     />
                     <div className="phaseOutcomes">
-                      <h3>Product Overview</h3>
+                      <h3>Anticipated Outcomes</h3>
                       <ul>
                         {phase.anticipatedOutcomes.map(anticipatedOutcome => (
                           <li key={anticipatedOutcome}>{anticipatedOutcome}</li>
                         ))}
                       </ul>
+
+                      {phase.actualOutcomes.length > 0 && (
+                        <div>
+                          <hr className="outcomeSeparator" />
+                          <h3>actual Outcomes</h3>
+                          <ul>
+                            {phase.actualOutcomes.map(actualOutcome => (
+                              <li key={actualOutcome}>{actualOutcome}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -147,7 +159,7 @@ const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
 };
 
 export const blueprintPhases = gql`
-  query BlueprintPhases {
+  query blueprintPhases {
     blueprintPhases {
       phaseTitle
       purpose
