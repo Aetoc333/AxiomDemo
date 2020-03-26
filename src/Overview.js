@@ -47,7 +47,7 @@ const Overview = ({
 };
 
 export const blueprints = gql`
-  query blueprints {
+  query Blueprints {
     blueprints {
       overviewTitle
       overviewDescription
