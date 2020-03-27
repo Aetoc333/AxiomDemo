@@ -4,6 +4,7 @@
   "description": null,
   "keywords": [],
   "main": "src/index.js",
+  "homepage": "https://github.com/Aetoc333/AxiomDemo"
   "dependencies": {
     "apollo-cache-inmemory": "1.6.5",
     "apollo-client": "2.6.8",
