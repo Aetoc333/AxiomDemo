@@ -1,7 +1,7 @@
 {
-  "name": "axiomretail",
-  "version": "0.0.13",
-  "description": null,
+  "name": "demotemplate",
+  "version": "1.0.0",
+  "description": "",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
@@ -24,7 +24,6 @@
     "swiper": "5.3.6"
   },
   "devDependencies": {
-    "react-scripts": "1.0.0",
     "typescript": "3.3.3"
   },
   "scripts": {

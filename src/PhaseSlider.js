@@ -132,18 +132,6 @@ const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
                           <li key={anticipatedOutcome}>{anticipatedOutcome}</li>
                         ))}
                       </ul>
-
-                      {phase.actualOutcomes.length > 0 && (
-                        <div>
-                          <hr className="outcomeSeparator" />
-                          <h3>actual Outcomes</h3>
-                          <ul>
-                            {phase.actualOutcomes.map(actualOutcome => (
-                              <li key={actualOutcome}>{actualOutcome}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
