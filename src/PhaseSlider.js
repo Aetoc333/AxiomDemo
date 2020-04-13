@@ -5,8 +5,10 @@ import Swiper from "react-id-swiper";
 import slugify from "react-slugify";
 import { HashLink as Link } from "react-router-hash-link";
 import { BrowserRouter as Router } from "react-router-dom";
+import ReactDOM from "react-dom";
 import Overview from "./Overview";
 import Checklist from "./Checklist";
+import ChecklistItem from "./ChecklistItem";
 
 const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
   const [timeFrameOptions, setTimeFrameOption] = useState([]);
@@ -35,7 +37,7 @@ const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
   };
 
   const updateCurrentView = e => {
-    console.log();
+    // console.log(swiper);
   };
 
   if (error) return <h1>Error fetching data! </h1>;
@@ -113,38 +115,13 @@ const PhaseSlider = ({ data: { loading, error, blueprintPhases } }) => {
                 <div className="phaseContentWrap">
                   <div className="phaseObjectives">
                     <h3>Overview</h3>
-                    <ul>
-                      {phase.objectives.map(objective => (
-                        <li key={objective}>{objective}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="phaseDataWrap">
-                    <Checklist
-                      phase={phase.phaseTitle}
-                      tasks={phase.measureOfSuccessDefaults}
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: phase.overviewDescription.html
+                      }}
                     />
-                    <div className="phaseOutcomes">
-                      <h3>Anticipated Outcomes</h3>
-                      <ul>
-                        {phase.anticipatedOutcomes.map(anticipatedOutcome => (
-                          <li key={anticipatedOutcome}>{anticipatedOutcome}</li>
-                        ))}
-                      </ul>
-
-                      {phase.actualOutcomes.length > 0 && (
-                        <div>
-                          <hr className="outcomeSeparator" />
-                          <h3>actual Outcomes</h3>
-                          <ul>
-                            {phase.actualOutcomes.map(actualOutcome => (
-                              <li key={actualOutcome}>{actualOutcome}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
                   </div>
+                  <Checklist solutions={phase.xiSolutionses} />
                 </div>
               </div>
             ))}
@@ -162,14 +139,30 @@ export const blueprintPhases = gql`
     blueprintPhases {
       phaseTitle
       purpose
-      objectives
-      anticipatedOutcomes
-      actualOutcomes
-      measureOfSuccessDefaults
       id
+      objectives
+      overviewDescription {
+        html
+      }
+      xiSolutionses {
+        id
+        xiSolutionTitle
+        content {
+          html
+        }
+        productLink
+      }
     }
   }
 `;
 
 // export default Navigation
 export default graphql(blueprintPhases)(PhaseSlider);
+// {phase.xiSolutionses.map(task => (
+//
+//   <div className="checklistItem swiper-no-swiping" >
+//     <p dangerouslySetInnerHTML={{ __html: this.props.task.task }}/>
+//     <div className="checklistItemArrow"></div>
+//   </div>
+//
+// ))}

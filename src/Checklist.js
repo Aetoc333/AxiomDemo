@@ -4,130 +4,78 @@ import ChecklistItem from "./ChecklistItem";
 
 export default class Checklist extends Component {
   state = {
-    tasks: [],
-    count: 0
+    valueContent: "",
+    productLink: "",
+    active: false,
+    currentId: 0
   };
 
-  componentDidMount() {
-    this.addDefaultTask();
-  }
+  componentDidMount() {}
 
   componentDidUpdate() {}
 
-  addDefaultTask = () => {
-    this.props.tasks.map(task =>
-      this.addTask({
-        id: shortid.generate(),
-        task: task,
-        complete: false,
-        editable: false
-      })
-    );
+  updateValueContent = content => {
+    this.setState({ valueContent: content });
   };
 
-  addTask = task => {
-    this.setState(state => ({
-      tasks: [...state.tasks, task]
-    }));
+  updateProductLink = link => {
+    this.setState({ productLink: link });
   };
 
-  /* createNewTask = () => {
-    this.addTask({
-      id: shortid.generate(),
-      task: "Edit New Task",
-      complete: false,
-      editable: true
-    });
-    console.log(this.state.tasks);
-  };
-*/
-  toggleComplete = id => {
-    this.setState(state => ({
-      tasks: state.tasks.map(task => {
-        if (task.id === id) {
-          // suppose to update
-          return {
-            ...task,
-            complete: !task.complete
-          };
-        } else {
-          return task;
-        }
-      })
-    }));
-  };
-
-  toggleEditable = id => {
-    this.setState(state => ({
-      tasks: state.tasks.map(task => {
-        if (task.id === id) {
-          // suppose to update
-          return {
-            ...task,
-            editable: !task.editable
-          };
-        } else {
-          return task;
-        }
-      })
-    }));
-  };
-
-  updateTask = (id, newtask) => {
-    this.setState(state => ({
-      tasks: state.tasks.map(task => {
-        if (task.id === id) {
-          // suppose to update
-          return {
-            ...task,
-            task: newtask
-          };
-        } else {
-          return task;
-        }
-      })
-    }));
-  };
-
-  handleDeleteTask = id => {
-    this.setState(state => ({
-      tasks: state.tasks.filter(task => task.id !== id)
-    }));
+  setCurrentItem = id => {
+    const currentState = this.state.active;
+    this.setState({ active: !currentState });
+    this.setState({ currentId: id });
   };
 
   render() {
     return (
-      <div className="phaseCheckList">
-        <h3>XI Solutions</h3>
-        <div className="checklistItems">
-          {this.state.tasks.map(task => (
-            <ChecklistItem
-              task={task}
-              key={task.id}
-              editable={task.editable}
-              toggleComplete={() => this.toggleComplete(task.id)}
-              toggleEditable={() => this.toggleEditable(task.id)}
-              updateTask={newtask => this.updateTask(task.id, newtask)}
-              onDelete={() => this.handleDeleteTask(task.id)}
-            />
-          ))}
+      <div className="phaseDataWrap">
+        <div className="phaseCheckList">
+          <h3>XI Solutions</h3>
+          <div className="checklistItems">
+            {this.props.solutions.map(solution => (
+              <ChecklistItem
+                title={solution.xiSolutionTitle}
+                key={solution.id}
+                id={solution.id}
+                content={solution.content.html}
+                linkUrl={solution.productLink}
+                updateContent={this.updateValueContent}
+                updateLink={this.updateProductLink}
+                active={this.state.currentId == solution.id ? true : false}
+                updateActiveState={this.setCurrentItem}
+              />
+            ))}
+          </div>
         </div>
-        <div className="taskProgressWrap">
-          <p>{this.props.phase} Progress</p>
-
-          {this.state.tasks.map((task, index) => (
-            <div
-              className="taskProgressItem"
-              status={
-                index < this.state.tasks.filter(task => task.complete).length
-                  ? "done"
-                  : "undone"
-              }
-              key={task.id}
-            />
-          ))}
+        <div className="phaseOutcomes">
+          <h3>Value</h3>
+          <div
+            className="xiSolutionValueContent"
+            dangerouslySetInnerHTML={{ __html: this.state.valueContent }}
+          />
+          {this.state.productLink && (
+            <a
+              className="productLink"
+              target="_blank"
+              href={this.state.productLink}
+            >
+              View Solution
+            </a>
+          )}
         </div>
       </div>
     );
   }
 }
+
+// <div className="checklistItems">
+//   {this.props.tasks.map(task => (
+//     <ChecklistItem
+//     task={task}
+//     key={task.id}
+//     ></ChecklistItem>
+//   ))}
+//
+// </div>
